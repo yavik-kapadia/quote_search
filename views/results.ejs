@@ -1,1 +1,19 @@
-<%- include()%>
+<%- include("partials/header")%>
+<body>
+<% if (quotes.length > 0) { %>
+    <h1> Quotes Found</h1>
+    <% for (i of quotes) {%>
+        <%= i.quote%> <br>
+        -<em>
+            <a href="#" id="<%=i.authorId%>">
+                <%= i.firstName%> <%= i.lastName %>
+            </a>
+        </em>
+        <br><br>
+    <% } %>
+<% } else { %>
+    <p>No quotes found</p>
+<% } %>
+<script src="/js/script.js"></script>
+</body>
+<%- include("partials/footer")%>

@@ -8,6 +8,18 @@
     <input type="text" name="keyword">
     <button>Search by Keyword</button>
 </form>
+<br>
+<form action="/searchByAuthor">
+    <select name="authorId">
+    <% for (author of authors){ %>
+        <option value="<%=author.authorID%>">
+            <%=author.firstName%> <%=author.lastName%>
+        </option>
+    <% } %>
+    </select>
+    <button>Search by Author</button>
+</form>
+<br>
 
 </body>
 <%- include("partials/footer.ejs") %>
