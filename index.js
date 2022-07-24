@@ -1,10 +1,9 @@
 const express = require('express');
-const mysql = require('mysql');
 const app = express();
 const pool = require('./dbPool.js');
 
 app.set("view engine", "ejs");
-app.use(express.static("public"));
+app.use(express.static('public'));
 
 //routes
 app.get("/dbTest", async function (req, res) {
@@ -17,7 +16,10 @@ app.get("/", async (req, res) => {
                FROM q_authors
                ORDER BY lastName`;
     let rows = await executeSQL(sql);
-    res.render("index", {authors: rows});
+
+    sql = `SELECT DISTINCT category FROM q_quotes `;
+    let category = await executeSQL(sql);
+    res.render("index", {authors: rows, categories: category});
 
 });
 
@@ -45,6 +47,16 @@ app.get('/searchByAuthor', async (req, res) => {
     res.render("results", {"quotes": rows});
 });
 
+//search by range of likes
+app.get('/searchByLikes', async (req, res) => {
+    let userMinLikes = req.query.minLikes;
+    let userMaxLikes = req.query.maxLikes;
+    let sql = `SELECT quote, authorId, firstName, lastName FROM q_quotes NATURAL JOIN q_authors WHERE likes ? between ?`;
+    let params = [parseInt(userMinLikes), parseInt(userMaxLikes)];
+    let rows = await executeSQL(sql, params);
+    res.render("results", {"quotes": rows});
+});
+
 app.get('/api/author/:id', async (req, res) => {
     let authorId = req.params.id;
     let sql = `SELECT *
@@ -52,6 +64,19 @@ app.get('/api/author/:id', async (req, res) => {
             WHERE authorId = ? `;
     let rows = await executeSQL(sql, [authorId]);
     res.send(rows)
+});
+
+app.get('/searchByCategory', async (req, res) => {
+    let userCategory = req.query.category;
+    console.log(userCategory);
+    let sql = `SELECT quote, authorId, firstName, lastName
+               FROM q_quotes
+                        NATURAL JOIN q_authors
+               WHERE category = ?`;
+    let params = [userCategory];
+
+    let rows = await executeSQL(sql, params);
+    res.render("results", {"quotes": rows});
 });
 
 //functions

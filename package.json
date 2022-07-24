@@ -5,7 +5,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["quote, search"],
+  "keywords": [
+    "quote, search"
+  ],
   "author": "Yavik Kapadia",
   "license": "ISC",
   "dependencies": {
