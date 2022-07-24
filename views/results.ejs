@@ -1,7 +1,7 @@
 <%- include("partials/header")%>
 
 <div class="content-wrapper bg-light">
-
+<div class ="results">
 <% if (quotes.length > 0) { %>
     <h3 class="text-center" > Quotes Found</h3>
     <% for (i of quotes) {%>
@@ -14,7 +14,12 @@
         <br><br>
     <% } %>
 <% } else { %>
-    <p>No quotes found</p>
+  <div class="no-results">
+    <p class="h2 text-center">No quotes found</p>
+    <form action="/">
+    <button class="btn btn-primary">Back to searching</button>
+    </form>
+  </div>
 <% } %>
 <div id="authorModal" class="modal" tabindex="-1">
     <div class="modal-dialog">
@@ -34,6 +39,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 </div>
 <script src="/js/script.js"></script>

@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const pool = require('./dbPool.js');
-
+const bg = await setBackground();
 app.set("view engine", "ejs");
 app.use(express.static('public'));
 
@@ -16,13 +16,19 @@ app.get("/", async (req, res) => {
                FROM q_authors
                ORDER BY lastName`;
     let rows = await executeSQL(sql);
-
     sql = `SELECT DISTINCT category FROM q_quotes `;
     let category = await executeSQL(sql);
-    res.render("index", {authors: rows, categories: category});
+    res.render("index", {authors: rows, categories: category, "bg":bg});
 
 });
-
+async function setBackground() {
+    let url = "https://api.unsplash.com/photos/random/?client_id=SRQjMtPIDrqVL-xWm51Gp1qpw9NFQ6YRv40_ISxn-ZE&orientation=landscape&featured=true&query=nature";
+    let response = await fetch(url);
+    let data = await response.json();
+    let image = data.urls.regular;
+    return image;
+    //document.querySelector("body").style.backgroundImage = `url(${image})`;
+}
 app.get('/searchByKeyword', async (req, res) => {
     let userKeyword = req.query.keyword;
     console.log(userKeyword);
