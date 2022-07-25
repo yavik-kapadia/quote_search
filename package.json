@@ -13,7 +13,8 @@
   "dependencies": {
     "ejs": "^3.1.8",
     "express": "^4.18.1",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "node-fetch": "2.6"
   },
   "description": "Finds famous quotes from the database"
 }
